@@ -1,0 +1,100 @@
+<div class="container mt-3"> 
+  <h3 class="page-title text-center mb-4">Blocs Management</h3>
+
+  <!-- Residence selection row -->
+<div class="row mb-3 align-items-center">
+<div class="col-md-4">
+  <select class="form-select" [(ngModel)]="selectedPaysId" (change)="onPaysChange()">
+    <option [ngValue]="undefined">-- Select Pays --</option> 
+    <option *ngFor="let p of paysList" [value]="p.id_country">{{ p.pays }}</option>
+  </select>
+</div>
+
+  <div class="col-md-4" *ngIf="selectedPaysId">
+    <select class="form-select" [(ngModel)]="selectedResidenceId" (change)="onResidenceChange()">
+      <option [ngValue]="undefined" disabled>-- Select Residence --</option>
+      <option *ngFor="let r of residencesList" [value]="r.id_residence">{{ r.nom }}</option>
+    </select>
+  </div>
+</div>
+
+<!-- Search + Add button row -->
+<div class="row mb-3 align-items-center">
+  <div class="col-md-4">
+    <input type="text" class="form-control" placeholder="Search by name"
+           [(ngModel)]="searchTerm" (input)="filterBlocs()" />
+  </div>
+
+  <div class="col-md-4 text-end">
+    <button class="btn btn-success" (click)="openCreateModal()">Add Bloc</button>
+  </div>
+</div>
+
+  <!-- Bloc cards -->
+  <div class="row">
+    <div *ngFor="let bloc of filteredBlocs" class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ bloc.nom }}</h5>
+          <p class="card-text">
+            Etages: {{ bloc.nombreEtages }} <br />
+            Residence: {{ getResidenceName(bloc.id_residence) }}
+          </p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          <button class="btn btn-primary btn-sm" (click)="openEditModal(bloc)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteBloc(bloc.id_bloc)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Create/Update Modal -->
+<div class="modal fade" id="blocModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" style="margin-top: 250px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ blocToUpdate?.id_bloc ? 'Edit Bloc' : 'Create Bloc' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="blocToUpdate">
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" [(ngModel)]="blocToUpdate.nom" name="nom" required />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Number of Etages</label>
+            <input type="number" class="form-control" [(ngModel)]="blocToUpdate.nombreEtages" name="nombreEtages" required />
+          </div>
+
+          <!-- Residence selection -->
+          <div class="mb-3">
+            <label class="form-label">Residence</label>
+            <select class="form-select" [(ngModel)]="blocToUpdate.id_residence" name="id_residence" required>
+              <option *ngFor="let r of residencesList" [value]="r.id_residence">{{ r.nom }}</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveBloc()">
+          {{ blocToUpdate?.id_bloc ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toasts -->
+<div class="toast-container">
+  <div *ngFor="let toast of toasts" class="toast" [ngClass]="toast.type">
+    {{ toast.message }}
+  </div>
+</div>

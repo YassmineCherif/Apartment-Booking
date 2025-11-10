@@ -1,0 +1,129 @@
+/* Page title */
+.page-title {
+  text-align: center;       
+  margin: 2rem 0;          
+  font-size: 2rem;       
+  font-weight: 700;     
+  color: #212529;           
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);  
+}
+
+/* Table cards */
+.table-card {
+  border-radius: 12px;
+  border: 1px solid #eee;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.table-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  border-color: rgba(193,163,98,0.4);
+}
+
+/* Table header */
+.table-card thead th {
+  background-color: #f8f9fa;
+  color: rgb(193, 163, 98);
+  font-weight: 700;
+  text-align: left;
+}
+
+/* Table body */
+.table-card tbody tr td {
+  vertical-align: middle;
+}
+
+/* Buttons */
+.btn-success {
+  background-color: rgb(193, 163, 98);
+  border-color: rgb(193, 163, 98);
+}
+
+.btn-success:hover {
+  background-color: #b49c61;
+  border-color: #b49c61;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Alert / messages */
+.text-danger {
+  font-weight: 500;
+}
+
+/* No pending users text */
+.text-muted {
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+/* Toasts (optional) */
+.toast-container {
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+  z-index: 1050;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  min-width: 250px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateX(100%);
+  animation: slideIn 0.5s forwards, fadeOut 0.5s forwards 2.5s;
+}
+
+.toast.success { background-color: #28a745; }
+.toast.error { background-color: #dc3545; }
+
+@keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+@keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }
+
+
+
+.btn-success {
+  background-color: #51b35e;  
+  border-color: #51b35e;
+
+}
+
+.btn-success:hover {
+  background-color: #257c31;  
+  border-color: #257c31;
+
+}
+
+.btn-danger {
+  background-color: #dc3545;
+    border-color: #dc3545;
+
+}
+
+.btn-danger:hover {
+  background-color: #a71d2a;
+  border-color: #a71d2a;
+}
+
+
+td button {
+  margin-right: 8px; /* adjust as needed */
+}

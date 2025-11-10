@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <h3 class="page-title text-center mb-4">Mes Réservations</h3>
+
+  <div *ngIf="reservations.length === 0" class="alert alert-info">
+    Vous n'avez aucune réservation.
+  </div>
+
+  <div *ngFor="let r of reservations" class="card mb-3 shadow-sm">
+    <div class="row g-0">
+      
+      <!-- Appartement Image -->
+      <div class="col-md-4 d-flex align-items-center justify-content-center">
+        <img 
+          [src]="r.appartements?.image ? '/assets/' + r.appartements?.image : '/assets/images/app1.png'" 
+          class="img-fluid rounded-start" 
+          alt="{{ r.appartements?.titre }}">
+      </div>
+
+
+
+      <!-- Reservation & Appartement Details -->
+      <div class="col-md-8">
+        <div class="card-body">
+                  <strong>Pays:</strong> {{ r.paysNom || '---' }} <br>
+                  <strong>Résidence:</strong> {{ r.residenceNom || '---' }}  <br>
+                  <strong>Bloc:</strong> {{ r.blocNom || '---' }}  <br>
+         <strong>Appartement: </strong>{{ r.appartements?.titre }} 
+         <p class="card-text">{{ r.appartements?.description || 'Pas de description disponible' }}</p>
+
+          <p class="mb-1">
+            <strong>Du:</strong> {{ r.dateDebut }}  
+            <br>
+            <strong>Au:</strong> {{ r.dateFin }}
+          </p>
+
+          <p>
+            <strong>Status:</strong>
+            <span [ngClass]="{
+              'text-success': r.approved === 1,
+              'text-danger': r.approved === 0,
+              'text-warning': r.approved === 2
+            }">
+              {{ r.approved === 1 ? 'Approuvé' : (r.approved === 0 ? 'Refusé' : 'En attente') }}
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

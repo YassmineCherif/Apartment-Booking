@@ -1,0 +1,77 @@
+<div class="container mt-3">
+  <h3 class="page-title">Pays Management</h3>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <input type="text" class="form-control" placeholder="Search by country name"
+             [(ngModel)]="searchTerm" (input)="filterPays()" />
+    </div>
+    <div class="col-md-6 text-end">
+      <button class="btn btn-success" (click)="openCreateModal()">Add Pays</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div *ngFor="let p of filteredPays" class="col-md-4 mb-3">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ p.pays }}</h5>
+          <p class="card-text">
+            Ville: {{ p.ville }} <br />
+            Adresse: {{ p.adress }} <br />
+            Localisation: {{ p.localisation }}
+          </p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+          <button class="btn btn-primary btn-sm" (click)="openEditModal(p)">Edit</button>
+          <button class="btn btn-danger btn-sm" (click)="deletePays(p.id_country)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create/Update Modal -->
+<div class="modal fade" id="paysModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" style="margin-top: 250px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ paysToUpdate?.id_country ? 'Edit Pays' : 'Create Pays' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form *ngIf="paysToUpdate">
+          <div class="mb-3">
+            <label class="form-label">Country Name</label>
+            <input type="text" class="form-control" [(ngModel)]="paysToUpdate.pays" name="pays" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Ville</label>
+            <input type="text" class="form-control" [(ngModel)]="paysToUpdate.ville" name="ville" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Adresse</label>
+            <input type="text" class="form-control" [(ngModel)]="paysToUpdate.adress" name="adress" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Localisation</label>
+            <input type="text" class="form-control" [(ngModel)]="paysToUpdate.localisation" name="localisation" required />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="savePays()">
+          {{ paysToUpdate?.id_country ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toasts -->
+<div class="toast-container">
+  <div *ngFor="let toast of toasts" class="toast" [ngClass]="toast.type">
+    {{ toast.message }}
+  </div>
+</div>

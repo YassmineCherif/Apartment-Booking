@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="heading">Mot de passe oublié</div>
+
+  <form (ngSubmit)="onSubmit()" class="form">
+    <!-- Email -->
+    <input 
+      required 
+      [(ngModel)]="email" 
+      name="email" 
+      class="input" 
+      type="email" 
+      placeholder="E-mail"
+      pattern=".+@.+\..+" 
+      title="Veuillez entrer une adresse e-mail valide"
+    />
+
+    <!-- Submit button -->
+    <input class="login-button" type="submit" value="Envoyer le lien">
+
+    <!-- Return to login -->
+    <div class="social-account-container mt-3">
+      <span class="title">Vous vous souvenez de votre mot de passe ?</span>
+      <div class="social-accounts">
+        <a routerLink="/login" class="create-button">Se connecter</a>
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+  </form>
+</div>

@@ -1,0 +1,33 @@
+#wrapper {
+  display: flex;
+  width: 100%;
+}
+
+#sidebar-wrapper {
+  min-width: 250px;
+  max-width: 250px;
+  min-height: 100vh; /* Full height */
+  background-color: #212529; /* Ensure consistent dark bg */
+}
+
+#page-content-wrapper {
+  flex: 1;
+}
+
+#menu-toggle {
+  margin-left: 10px;
+}
+
+.list-group-item {
+  border: none;
+}
+
+.list-group-item:hover {
+  background-color: #495057;
+}
+
+
+
+button {
+  margin-right: 8px;  
+}

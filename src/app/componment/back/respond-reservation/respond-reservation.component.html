@@ -1,0 +1,68 @@
+<div class="container mt-3">
+  <h3 class="page-title text-center mb-4">Gestion des Réservations</h3>
+
+  <!-- Filters -->
+<div class="d-flex align-items-center mb-3">
+  <label class="form-label mb-0" style="margin-right: 1cm; white-space: nowrap;">Choisir un Pays:</label>
+  <select class="form-select flex-grow-1" [(ngModel)]="selectedPaysId" (change)="onPaysChange()" style="max-width: 300px;">
+    <option [ngValue]="null">-- Sélectionner un pays --</option>
+    <option *ngFor="let pays of paysList" [ngValue]="pays.id_country">{{ pays.pays }}</option>
+  </select>
+</div>
+
+
+
+  <!-- Reservation Cards -->
+  <div *ngIf="reservations.length === 0" class="alert alert-info">
+    Aucune réservation disponible.
+  </div>
+
+  <div *ngFor="let r of reservations" class="card mb-3 shadow-sm">
+    <div class="row g-0">
+      <div class="col-md-4 d-flex align-items-center justify-content-center">
+        <img [src]="r.appartements?.image ? '/assets/' + r.appartements?.image : '/assets/images/app1.png'" 
+             class="img-fluid rounded-start" alt="{{ r.appartements?.titre }}">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <p><strong>Client: </strong> {{ r.user?.nom || '---' }} {{ r.user?.prenom || '' }} </p>  
+          <strong>Pays:</strong> {{ r.paysNom || '---' }} <br>
+          <strong>Résidence:</strong> {{ r.residenceNom || '---' }} <br>
+          <strong>Bloc:</strong> {{ r.blocNom || '---' }} <br>
+          <strong>Appartement:</strong> {{ r.appartements?.titre }} <br>
+          {{ r.appartements?.description || 'Pas de description disponible' }} <br>
+          <strong>Du:</strong> {{ r.dateDebut }} <br><strong>Au:</strong> {{ r.dateFin }}
+
+          <p>
+            <strong>Status: </strong>
+            <span [ngClass]="{
+              'text-success': r.approved === 1,
+              'text-danger': r.approved === 0,
+              'text-warning': r.approved === 2
+            }">
+              <b>{{ r.approved === 1 ? 'Approuvé' : (r.approved === 0 ? 'Refusé' : 'En attente') }} </b>
+            </span>
+          </p>
+
+           <div *ngIf="r.approved === 2" class="d-flex mt-1">
+             <button 
+               class="btn btn-success btn-md" 
+               (click)="acceptReservation(r)" 
+               style="margin-right: 0.5cm; padding: 0.35rem 0.8rem; font-size: 0.95rem;">
+               Accepter
+             </button>
+             <button 
+               class="btn btn-danger btn-md" 
+               (click)="declineReservation(r)" 
+               style="padding: 0.35rem 0.8rem; font-size: 0.95rem;">
+               Refuser
+             </button>
+           </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

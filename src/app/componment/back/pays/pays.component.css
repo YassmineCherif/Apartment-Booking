@@ -1,0 +1,104 @@
+.page-title {
+  text-align: center;       
+  margin: 2rem 0;          
+  font-size: 2rem;       
+  font-weight: 700;     
+  color: #212529;           
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);  
+}
+
+
+
+
+
+.card {
+  border-radius: 12px;
+  border: 1px solid #eee;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  border-color: rgba(193,163,98,0.4); /* gold accent */
+}
+
+.card-title {
+  color: rgb(193, 163, 98);
+  font-weight: 700;
+}
+
+.btn-success {
+  background-color: rgb(193, 163, 98);
+  border-color: rgb(193, 163, 98);
+}
+
+.btn-success:hover {
+  background-color: #b49c61;
+  border-color: #b49c61;
+}
+
+.alert-info {
+  border-radius: 8px;
+}
+
+
+
+
+ /* Card hover effect */
+.card {
+  border-radius: 12px;
+  border: 1px solid #eee;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  border-color: rgba(193,163,98,0.4);
+}
+
+.card-title {
+  color: rgb(193, 163, 98);
+  font-weight: 700;
+}
+
+.btn-success {
+  background-color: rgb(193, 163, 98);
+  border-color: rgb(193, 163, 98);
+}
+
+.btn-success:hover {
+  background-color: #b49c61;
+  border-color: #b49c61;
+}
+
+/* Toast container */
+.toast-container {
+  position: fixed;
+  top: 4rem;
+  right: 1rem;
+  z-index: 1050;
+}
+
+/* Toast */
+.toast {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  min-width: 250px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateX(100%);
+  animation: slideIn 0.5s forwards, fadeOut 0.5s forwards 2.5s;
+}
+
+.toast.success { background-color: #28a745; }
+.toast.error { background-color: #dc3545; }
+
+@keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+@keyframes fadeOut { to { opacity: 0; transform: translateX(100%); } }

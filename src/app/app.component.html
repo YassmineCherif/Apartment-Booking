@@ -1,0 +1,19 @@
+<!--
+<app-navbar></app-navbar>  
+
+ <app-admin></app-admin>
+-->
+
+
+<ng-container *ngIf="!isAuthPage; else authOnly">
+  <ng-container *ngIf="isAdminRoute; else frontOffice">
+    <router-outlet></router-outlet>
+  </ng-container>
+  <ng-template #frontOffice>
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+  </ng-template>
+</ng-container>
+<ng-template #authOnly>
+  <router-outlet></router-outlet>
+</ng-template>

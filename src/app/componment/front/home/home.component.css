@@ -1,0 +1,123 @@
+/* Make buttons look nicer */
+.btn1, .btn2 {
+  display: inline-block;
+  padding: 10px 22px;
+  margin: 8px 8px 0 0;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn1 {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn1:hover {
+  background-color: #0056b3;
+}
+
+.btn2 {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn2:hover {
+  background-color: #565e64;
+}
+
+/* Adjust detail box spacing */
+.detail-box h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.detail-box h2 {
+  font-size: 1.75rem;
+  margin-bottom: 15px;
+  font-weight: 500;
+  color: #555;
+}
+
+.detail-box p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Carousel images responsive */
+.img-box img {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Vertically center content */
+.carousel-inner .row.align-items-center {
+  min-height: 500px; /* ensure good height */
+}
+
+/* Remove container padding in carousel for full width */
+.carousel .container {
+  max-width: 200%;
+  padding-left: 30px;
+  padding-right: 30px;
+}.info_section {
+  position: relative;
+  background: url('/assets/images/Fig.png') no-repeat center center;
+  background-size: cover;
+  color: white;
+  padding: 40px 0;
+  overflow: hidden; /* contain children */
+}
+
+/* Create a dark overlay */
+.info_section::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* black with 60% opacity */
+  z-index: 0;
+}
+
+/* Content wrapper to be above the overlay */
+.info_section > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Text and links style */
+.info_section a, .info_section span {
+  color: white;
+  text-shadow: 0 0 5px rgba(0,0,0,0.7);
+}
+
+.info_section a:hover {
+  color: #ffd700;
+}
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+/* Make sure all sections span full width */
+section {
+  width: 100%;
+}
+
+/* Remove container side padding specifically in footer */
+.info_section .container {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Optional: for other containers if needed */
+.container {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}

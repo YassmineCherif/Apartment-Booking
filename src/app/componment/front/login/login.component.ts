@@ -19,11 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.renderer.setStyle(
-      document.body,
-      'background',
-      "url('assets/images/FigeacFro.webp') no-repeat center center fixed"
-    );
+    this.renderer.setStyle(document.body, 'background', "url('assets/images/FigeacFro.webp') no-repeat center center fixed");
     this.renderer.setStyle(document.body, 'backgroundSize', 'cover');
   }
 
@@ -39,11 +35,15 @@ export class LoginComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('isAuthenticated', 'true');
         sessionStorage.setItem('login', this.login);
         if (response?.role) {
-          sessionStorage.setItem('role', response.role);
+          sessionStorage.setItem('role', response.role.toUpperCase()); // store role
         }
+
+        // Redirect based on role
         const role = (response?.role || '').toUpperCase();
         if (role === 'ADMIN') {
           this.router.navigate(['/admin']);
+        } else if (role === 'CONCIERGE') {
+          this.router.navigate(['/admin']);  
         } else {
           this.router.navigate(['/home']);
         }

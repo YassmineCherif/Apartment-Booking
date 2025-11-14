@@ -20,6 +20,7 @@ import { RespondReservationComponent } from './componment/back/respond-reservati
 import { PendingComponent } from './componment/back/pending/accepted.component';
  import { UpdateProfileComponent } from './componment/front/profile/profile.component';
  import { ForgotComponent } from './componment/front/login/forgot-password/forgot/forgot.component';
+ import { MessengerComponent } from './componment/back/messenger/messenger.component';
 
 
 const routes: Routes = [
@@ -49,7 +50,8 @@ const routes: Routes = [
       { path: 'residences', component: ResidencesComponent },
       { path: 'respond', component: RespondReservationComponent },
       { path: 'forum', component: ForumComponent },
-      { path: 'pending', component: PendingComponent }
+      { path: 'pending', component: PendingComponent },
+      {path: 'messenger', component: MessengerComponent }
     ]
   },
 

@@ -2,8 +2,7 @@ import { USER_ROLE } from "./USER_ROLE";
 import { Pays } from "./Pays";
 import { Reservation } from "./Reservation";
 import { ETAT_RECLAMATION } from "./ETAT_RECLAMATION";
-import { Chat } from "./Chat";
-import { Reclamation } from "./Reclamation";
+ import { Reclamation } from "./Reclamation";
 
 
 
@@ -26,6 +25,5 @@ export interface User {
   derniercnx: string;
   pays?: Pays[];
   reservations?: Reservation[];
-  chats?: Chat[];
-  reclamations?: Reclamation[];
+   reclamations?: Reclamation[];
 }

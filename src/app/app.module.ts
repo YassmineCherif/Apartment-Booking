@@ -32,7 +32,7 @@ import { PendingComponent } from './componment/back/pending/accepted.component';
 import { MessengerComponent } from './componment/back/messenger/messenger.component';
 import { UpdateProfileComponent } from './componment/front/profile/profile.component';
 import { ForgotComponent } from './componment/front/login/forgot-password/forgot/forgot.component';
-
+ 
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +65,7 @@ import { ForgotComponent } from './componment/front/login/forgot-password/forgot
     MessengerComponent,
     UpdateProfileComponent,
     ForgotComponent,
-
+ 
     
     
     

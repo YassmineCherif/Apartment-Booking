@@ -22,7 +22,8 @@ public class User {
     private String numerotelephone;
 
     @Enumerated(EnumType.STRING)
-    private USER_ROLE user_role;
+    private USER_ROLE userRole;
+
 
     private String adresse;
     private String login;
@@ -35,9 +36,6 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Reservation> reservations;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private Set<Chat> chats;
 
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Reclamation> reclamations;

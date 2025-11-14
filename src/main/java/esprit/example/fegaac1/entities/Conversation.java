@@ -1,6 +1,7 @@
 package esprit.example.fegaac1.entities;
 
 
+ import com.fasterxml.jackson.annotation.JsonManagedReference;
  import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +13,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Conversation {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_conversation;
@@ -21,8 +21,8 @@ public class Conversation {
     private LocalDateTime createdAt;
     private LocalDateTime lastMessageAt;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_conversation")
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Message> messages;
 
     @ManyToMany

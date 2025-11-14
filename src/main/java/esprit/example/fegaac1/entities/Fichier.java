@@ -2,7 +2,6 @@ package esprit.example.fegaac1.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Entity

@@ -36,9 +36,9 @@ public class UserController {
             if (password.equals(user.getMdp())) {
                 if (user.getApproved() == 1) { // only allow approved users
                     session.setAttribute("USER_LOGIN", user.getLogin());
-                    session.setAttribute("USER_ROLE", user.getUser_role());
+                    session.setAttribute("USER_ROLE", user.getUserRole());
                     response.put("message", "Connexion réussie");
-                    response.put("role", user.getUser_role() != null ? user.getUser_role().name() : USER_ROLE.CLIENT.name());
+                    response.put("role", user.getUserRole() != null ? user.getUserRole().name() : USER_ROLE.CLIENT.name());
                     return ResponseEntity.ok(response);
                 } else if (user.getApproved() == 2) {
                     response.put("message", "Validation de l'utilisateur en attente");
@@ -68,8 +68,8 @@ public class UserController {
     public ResponseEntity<Map<String, String>> register(@RequestBody User user) {
         Map<String, String> response = new HashMap<>();
         try {
-            if (user.getUser_role() == null) {
-                user.setUser_role(USER_ROLE.CLIENT);
+            if (user.getUserRole() == null) {
+                user.setUserRole(USER_ROLE.CLIENT);
             }
 
             user.setActif(true);

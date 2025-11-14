@@ -12,34 +12,54 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class ChatService {
-
     private final ConversationRepository conversationRepository;
     private final MessageRepository messageRepository;
     private final FichierRepository fichierRepository;
     private final UserRepository userRepository;
 
-    // Create a new message in a conversation
+    public List<Conversation> getAllConversations() {
+        return conversationRepository.findAll();
+    }
+
+    public List<Message> getMessages(Long conversationId) {
+        return messageRepository.findByConversationIdOrderByDateCreationAsc(conversationId);
+    }
+
+    public Conversation getOrCreateConversation(Long user1Id, Long user2Id) {
+        List<Conversation> existing = conversationRepository.findConversationBetweenUsers(user1Id, user2Id);
+        if (!existing.isEmpty()) return existing.get(0);
+
+        Conversation conv = new Conversation();
+        conv.setCreatedAt(LocalDateTime.now());
+        conv.setLastMessageAt(LocalDateTime.now());
+
+        User u1 = userRepository.findById(user1Id).orElseThrow();
+        User u2 = userRepository.findById(user2Id).orElseThrow();
+        conv.setParticipants(Set.of(u1, u2));
+        return conversationRepository.save(conv);
+    }
+
     public Message sendMessage(Long conversationId, Long senderId, String content, Set<Fichier> fichiers) {
-        Conversation conversation = conversationRepository.findById(conversationId)
-                .orElseThrow(() -> new RuntimeException("Conversation not found"));
-        User sender = userRepository.findById(senderId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Conversation conversation = conversationRepository.findById(conversationId).orElseThrow();
+        User sender = userRepository.findById(senderId).orElseThrow();
 
         Message message = new Message();
         message.setContent(content);
         message.setSender(sender);
         message.setDateCreation(LocalDateTime.now());
-        message.setFichiers(fichiers);
+        message.setConversation(conversation);
 
-        conversation.getMessages().add(message);
+        if (fichiers != null && !fichiers.isEmpty()) {
+            fichiers.forEach(fichierRepository::save);
+            message.setFichiers(fichiers);
+        }
+
+        messageRepository.save(message);
+
         conversation.setLastMessageAt(LocalDateTime.now());
-
+        conversation.getMessages().add(message);
         conversationRepository.save(conversation);
-        return message;
-    }
 
-    // Get messages for a conversation
-    public List<Message> getMessages(Long conversationId) {
-        return messageRepository.findByConversationIdConversationOrderByDateCreationAsc(conversationId);
+        return message;
     }
 }

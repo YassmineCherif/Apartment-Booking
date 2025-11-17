@@ -6,19 +6,34 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ChatService {
+
     private final ConversationRepository conversationRepository;
     private final MessageRepository messageRepository;
     private final FichierRepository fichierRepository;
     private final UserRepository userRepository;
 
     public List<Conversation> getAllConversations() {
-        return conversationRepository.findAll();
+        return conversationRepository.findAll().stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    private Conversation toDTO(Conversation conv) {
+        Conversation dto = new Conversation();
+        dto.setId_conversation(conv.getId_conversation());
+        dto.setCreatedAt(conv.getCreatedAt());
+        dto.setLastMessageAt(conv.getLastMessageAt());
+        dto.setParticipants(conv.getParticipants()); // This will be loaded
+        // Don't include messages - load them separately via getMessages()
+        return dto;
     }
 
     public List<Message> getMessages(Long conversationId) {
@@ -35,7 +50,10 @@ public class ChatService {
 
         User u1 = userRepository.findById(user1Id).orElseThrow();
         User u2 = userRepository.findById(user2Id).orElseThrow();
-        conv.setParticipants(Set.of(u1, u2));
+
+        // Use HashSet for JPA compatibility
+        conv.setParticipants(new HashSet<>(Set.of(u1, u2)));
+
         return conversationRepository.save(conv);
     }
 
@@ -55,9 +73,7 @@ public class ChatService {
         }
 
         messageRepository.save(message);
-
         conversation.setLastMessageAt(LocalDateTime.now());
-        conversation.getMessages().add(message);
         conversationRepository.save(conversation);
 
         return message;

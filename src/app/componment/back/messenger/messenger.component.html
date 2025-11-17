@@ -10,22 +10,28 @@
         </div>
       </div>
       <div style="margin-left:auto;display:flex;gap:8px">
-        <button class="icon-btn" title="New chat">➕</button>
-        <button class="icon-btn" title="Settings">⚙️</button>
-      </div>
+        <button class="icon-btn" title="New chat" (click)="openNewChat()">➕</button>
+       </div>
     </div>
 
     <div class="search">
-      <input placeholder="Search messages" [(ngModel)]="searchTerm" (input)="filterConversations()" />
+      <input placeholder="Search contacts" [(ngModel)]="searchTerm" (input)="searchContacts()" />
     </div>
 
     <div class="convos">
+      <div *ngIf="isLoading" style="text-align: center; padding: 20px; color: var(--muted);">
+        Loading conversations...
+      </div>
+      <div *ngIf="!isLoading && filteredConversations.length === 0" 
+           style="text-align: center; padding: 20px; color: var(--muted);">
+        No conversations found
+      </div>
       <div *ngFor="let conv of filteredConversations" class="convo"
            [class.active]="conv === selectedConversation"
            (click)="selectConversation(conv)">
-        <div class="avatar">{{ conv.subject.slice(0,2) | uppercase }}</div>
+        <div class="avatar">{{ getParticipantInitials(conv) }}</div>
         <div class="convo-main">
-          <div class="convo-name">{{ conv.subject }}</div>
+          <div class="convo-name">{{ getParticipantName(conv) }}</div>
           <div class="convo-snippet">{{ getLastMessage(conv) }}</div>
         </div>
       </div>
@@ -34,21 +40,63 @@
 
   <!-- CENTER: Chat -->
   <main class="panel chat">
-    <div class="chat-header" *ngIf="selectedConversation">
-      <div class="avatar">{{ selectedConversation.subject.slice(0,2) | uppercase }}</div>
-      <div class="chat-title">{{ selectedConversation.subject }}</div>
-      <div class="chat-sub">Participants: {{ selectedConversationParticipants }}</div>
+    <!-- Error Message Display -->
+    <div *ngIf="errorMessage" 
+         style="background-color: #fee; color: #c33; padding: 12px; margin: 10px; border-radius: 4px; border: 1px solid #fcc;">
+      <strong>Error:</strong> {{ errorMessage }}
+      <button (click)="errorMessage = ''" 
+              style="float: right; background: none; border: none; color: #c33; cursor: pointer; font-size: 18px;">×</button>
     </div>
 
-    <div class="messages">
+    <div class="chat-header" *ngIf="selectedConversation">
+      <div class="avatar">{{ getContactInitials() }}</div>
+      <div class="chat-title">{{ selectedContactName || getParticipantName(selectedConversation) || 'Select a contact' }}</div>
+    </div>
+
+    <div *ngIf="!selectedConversation" 
+         style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--muted);">
+      <div style="text-align: center;">
+        <p>Select a contact to start a conversation</p>
+        <p style="font-size: 12px; margin-top: 8px;">Click on a contact from the right sidebar</p>
+      </div>
+    </div>
+
+    <div class="messages" *ngIf="selectedConversation">
+      <div *ngIf="isLoading" 
+           style="text-align: center; padding: 20px; color: var(--muted);">
+        Loading messages...
+      </div>
+      <div *ngIf="!isLoading && (!selectedConversation.messages || selectedConversation.messages.length === 0)" 
+           style="text-align: center; padding: 20px; color: var(--muted);">
+        No messages yet. Start the conversation!
+      </div>
       <div *ngFor="let msg of selectedConversation?.messages" class="msg-row" 
            [class.me]="msg.sender.id_user === currentUser?.id_user">
         <div class="avatar">{{ msg.sender.login.slice(0,2) | uppercase }}</div>
         <div class="msg" [class.me]="msg.sender.id_user === currentUser?.id_user">
-          {{ msg.content }}
-          <div *ngIf="msg.fichiers?.length">
-            <div *ngFor="let f of msg.fichiers">
-              <a [href]="fileUrl(f)" target="_blank">{{ f.titre }} ({{ f.typeFichier }})</a>
+          <div *ngIf="msg.content">{{ msg.content }}</div>
+          <div *ngIf="msg.fichiers?.length" class="files-container">
+            <div *ngFor="let f of msg.fichiers" class="file-item">
+              <!-- Image Preview -->
+              <div *ngIf="isImage(f)" class="image-preview">
+                <img [src]="fileUrl(f)" [alt]="f.titre" (error)="handleImageError($event)" 
+                     (click)="openImageInNewTab(fileUrl(f))" />
+                <div class="file-name">{{ f.titre }}</div>
+              </div>
+              <!-- PDF Preview/Link -->
+              <div *ngIf="isPdf(f)" class="pdf-preview">
+                <a [href]="fileUrl(f)" target="_blank" class="pdf-link">
+                  <span class="pdf-icon">📄</span>
+                  <span>{{ f.titre }}</span>
+                </a>
+              </div>
+              <!-- Other Documents -->
+              <div *ngIf="!isImage(f) && !isPdf(f)" class="document-preview">
+                <a [href]="fileUrl(f)" target="_blank" class="doc-link">
+                  <span class="doc-icon">📎</span>
+                  <span>{{ f.titre }}</span>
+                </a>
+              </div>
             </div>
           </div>
           <div class="meta">{{ msg.dateCreation | date:'HH:mm' }}</div>
@@ -56,24 +104,93 @@
       </div>
     </div>
 
-    <div class="composer">
+    <div class="composer" *ngIf="selectedConversation">
       <input type="file" multiple (change)="attachFiles($event)" />
       <textarea [(ngModel)]="newMessage" placeholder="Write a message…"></textarea>
       <button (click)="sendMessage()">Send</button>
     </div>
   </main>
 
-  <!-- RIGHT: Contacts -->
-  <aside class="panel details">
-    <div class="section">
-      <div class="label">Contacts</div>
-      <div class="chips">
+<!-- RIGHT: Contacts -->
+<aside class="panel details">
+  <div class="section">
+    <div class="label">Contacts</div>
+    <div class="chips">
       <div *ngFor="let user of contacts" class="chip" (click)="contactClicked(user)">
-           {{ user.nom }} {{ user.prenom }}<br>
-       </div>
-
-
+        {{ user.nom }} {{ user.prenom }}
       </div>
     </div>
-  </aside>
+  </div>
+</aside>
+
+<!-- New Chat Modal -->
+<div *ngIf="showNewChatModal" class="modal-overlay" (click)="closeNewChat()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>New Conversation</h3>
+      <button class="close-btn" (click)="closeNewChat()">×</button>
+    </div>
+    
+    <div class="modal-body">
+      <!-- Search Contact -->
+      <div class="new-chat-search">
+        <input 
+          type="text" 
+          placeholder="Search for a contact..." 
+          [(ngModel)]="newChatSearchTerm" 
+          (input)="searchContactsForNewChat()"
+          autofocus />
+      </div>
+
+      <!-- Contact List -->
+      <div *ngIf="newChatSearchTerm && filteredContactsForNewChat.length > 0" class="contact-list">
+        <div 
+          *ngFor="let user of filteredContactsForNewChat" 
+          class="contact-item"
+          (click)="selectContactForNewChat(user)">
+          <div class="avatar">{{ (user.nom + ' ' + user.prenom).slice(0,2) | uppercase }}</div>
+          <div class="contact-info">
+            <div class="contact-name">{{ user.nom }} {{ user.prenom }}</div>
+            <div class="contact-login">{{ user.login }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="newChatSearchTerm && filteredContactsForNewChat.length === 0" class="no-results">
+        No contacts found
+      </div>
+
+      <!-- Selected Contact -->
+      <div *ngIf="selectedContactForNewChat" class="selected-contact">
+        <div class="selected-contact-info">
+          <div class="avatar">{{ (selectedContactForNewChat.nom + ' ' + selectedContactForNewChat.prenom).slice(0,2) | uppercase }}</div>
+          <div>
+            <div class="contact-name">{{ selectedContactForNewChat.nom }} {{ selectedContactForNewChat.prenom }}</div>
+            <div class="contact-login">{{ selectedContactForNewChat.login }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Message Input -->
+      <div *ngIf="selectedContactForNewChat" class="new-chat-message">
+        <textarea 
+          [(ngModel)]="newChatMessage" 
+          placeholder="Type your message..."
+          rows="4"></textarea>
+        <input type="file" multiple (change)="attachFiles($event)" />
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeNewChat()">Cancel</button>
+      <button 
+        class="btn-send" 
+        (click)="startNewConversation()" 
+        [disabled]="!selectedContactForNewChat || (!newChatMessage.trim() && selectedFiles.length === 0) || isLoading">
+        {{ isLoading ? 'Starting...' : 'Start Conversation' }}
+      </button>
+    </div>
+  </div>
+</div>
+
 </div>

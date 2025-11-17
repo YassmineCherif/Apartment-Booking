@@ -21,7 +21,7 @@ import { PendingComponent } from './componment/back/pending/accepted.component';
  import { UpdateProfileComponent } from './componment/front/profile/profile.component';
  import { ForgotComponent } from './componment/front/login/forgot-password/forgot/forgot.component';
  import { MessengerComponent } from './componment/back/messenger/messenger.component';
-
+import { ChatComponent } from './componment/front/chat/chat.component';
 
 const routes: Routes = [
 
@@ -37,6 +37,7 @@ const routes: Routes = [
   { path: 'mesres', component: MesReservationsComponent },
    {path: 'profile', component: UpdateProfileComponent },
    {path: 'forgot', component: ForgotComponent },
+   {path: 'chat', component: ChatComponent },
   // back office (nested under /admin)
   { 
     path: 'admin', 

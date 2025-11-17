@@ -1,11 +1,9 @@
-export enum TYPE_FICHIER {
-  FACTURE = 'FACTURE',
-  IMAGE = 'IMAGE'
-}
+import { TYPE_FICHIER } from './TYPE_FICHIER';
 
 export interface Fichier {
   id_fichier?: number;
-  titre: string;
-  typeFichier: TYPE_FICHIER;
-  dateCreation: string;  
+  typeFichier?: TYPE_FICHIER;
+  titre?: string;
+  dateCreation?: string;
+  chemin?: string; 
 }

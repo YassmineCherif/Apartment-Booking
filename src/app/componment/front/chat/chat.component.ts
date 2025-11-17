@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ChatService } from 'src/app/Services/Chat/chat.service';
 import { UserService } from 'src/app/Services/user/user.service';
 import { Conversation } from 'src/app/models/Conversation';
@@ -11,6 +11,7 @@ import { User } from 'src/app/models/user';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
+  @ViewChild('messagesContainer', { static: false }) messagesContainer!: ElementRef;
   currentUser: User | null = null;
   allUsers: User[] = [];
   contacts: User[] = [];
@@ -146,6 +147,8 @@ export class ChatComponent implements OnInit {
           if (this.selectedConversation && this.selectedConversation.id_conversation === conv.id_conversation) {
             this.selectedConversation.messages = msgs || [];
             this.isLoading = false;
+            // Scroll to bottom after messages are loaded
+            setTimeout(() => this.scrollToBottom(), 0);
           }
         },
         error: (err) => {
@@ -241,7 +244,12 @@ export class ChatComponent implements OnInit {
   }
 
   attachFiles(event: any) {
-    this.selectedFiles = Array.from(event.target.files);
+    const newFiles = Array.from(event.target.files) as File[];
+    this.selectedFiles = [...this.selectedFiles, ...newFiles];
+  }
+
+  removeFile(index: number) {
+    this.selectedFiles.splice(index, 1);
   }
 
   get selectedConversationParticipants(): string {
@@ -298,6 +306,8 @@ export class ChatComponent implements OnInit {
         this.newMessage = '';
         this.selectedFiles = [];
         this.errorMessage = '';
+        // Scroll to bottom after sending message
+        setTimeout(() => this.scrollToBottom(), 0);
       },
       error: (err) => {
         console.error('Error sending message:', err);
@@ -421,6 +431,8 @@ export class ChatComponent implements OnInit {
             this.closeNewChat();
             this.selectedFiles = [];
             this.isLoading = false;
+            // Scroll to bottom after starting new conversation
+            setTimeout(() => this.scrollToBottom(), 100);
           },
           error: (err) => {
             console.error('Error sending message:', err);
@@ -437,6 +449,17 @@ export class ChatComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  scrollToBottom(): void {
+    try {
+      if (this.messagesContainer) {
+        const element = this.messagesContainer.nativeElement;
+        element.scrollTop = element.scrollHeight;
+      }
+    } catch (err) {
+      console.error('Error scrolling to bottom:', err);
+    }
   }
 
   private extractErrorMessage(err: any): string {

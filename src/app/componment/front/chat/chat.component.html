@@ -1,263 +1,254 @@
-<div class="messenger-container">
-  <!-- LEFT: Conversations Sidebar -->
-  <aside class="conversations-sidebar">
+<div class="app">
+  <!-- LEFT: Conversations -->
+  <aside class="panel sidebar">
     <div class="sidebar-header">
-      <div class="user-profile">
-        <div class="user-avatar">{{ currentUser?.login?.slice(0,2) | uppercase }}</div>
-        <div class="user-info">
-          <div class="user-name">Messages</div>
-          <div class="user-status">{{ currentUser?.login }}</div>
+      <div class="avatar">{{ currentUser?.login?.slice(0,2) | uppercase }}</div>
+      <div>
+        <div class="sidebar-title">Messages</div>
+        <div style="font-size:12px;color:var(--muted)">
+          Connected as {{ currentUser?.login }}
         </div>
       </div>
-      <button class="new-chat-btn" (click)="openNewChat()" title="New conversation">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-      </button>
+      <div style="margin-left:auto;display:flex;gap:8px">
+<button class="icon-btn" title="New chat" (click)="openNewChat()">✨</button>
+       </div>
     </div>
 
-    <div class="search-box">
-      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.35-4.35"></path>
-      </svg>
-      <input 
-        type="text" 
-        placeholder="Search contacts..." 
-        [(ngModel)]="searchTerm" 
-        (input)="searchContacts()" />
+    <div class="search">
+      <input placeholder="Search contacts" [(ngModel)]="searchTerm" (input)="searchContacts()" />
     </div>
 
-    <div class="conversations-list">
-      <div *ngIf="isLoading" class="loading-state">
-        <div class="spinner"></div>
-        <p>Loading conversations...</p>
+    <div class="convos">
+      <div *ngIf="isLoading" style="text-align: center; padding: 20px; color: var(--muted);">
+        Loading conversations...
       </div>
-      
-      <div *ngIf="!isLoading && filteredConversations.length === 0" class="empty-state">
-        <div class="empty-icon">💬</div>
-        <p>No conversations yet</p>
-        <p class="empty-hint">Start a new conversation to begin chatting</p>
+      <div *ngIf="!isLoading && filteredConversations.length === 0" 
+           style="text-align: center; padding: 20px; color: var(--muted);">
+        No conversations found
       </div>
-
-      <div 
-        *ngFor="let conv of filteredConversations" 
-        class="conversation-item"
-        [class.active]="conv === selectedConversation"
-        (click)="selectConversation(conv)">
-        <div class="conv-avatar">{{ getParticipantInitials(conv) }}</div>
-        <div class="conv-details">
-          <div class="conv-header">
-            <span class="conv-name">{{ getParticipantName(conv) }}</span>
-          </div>
-          <div class="conv-preview">{{ getLastMessage(conv) }}</div>
+      <div *ngFor="let conv of filteredConversations" class="convo"
+           [class.active]="conv === selectedConversation"
+           (click)="selectConversation(conv)">
+        <div class="avatar">{{ getParticipantInitials(conv) }}</div>
+        <div class="convo-main">
+          <div class="convo-name">{{ getParticipantName(conv) }}</div>
+          <div class="convo-snippet">{{ getLastMessage(conv) }}</div>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- CENTER: Chat Area -->
-  <main class="chat-area">
-    <!-- Error Message -->
-    <div *ngIf="errorMessage" class="error-banner">
-      <span>{{ errorMessage }}</span>
-      <button class="close-error" (click)="errorMessage = ''">×</button>
+  <!-- CENTER: Chat -->
+  <main class="panel chat">
+    <!-- Error Message Display -->
+    <div *ngIf="errorMessage" 
+         style="background-color: #fee; color: #c33; padding: 12px; margin: 10px; border-radius: 4px; border: 1px solid #fcc;">
+      <strong>Error:</strong> {{ errorMessage }}
+      <button (click)="errorMessage = ''" 
+              style="float: right; background: none; border: none; color: #c33; cursor: pointer; font-size: 18px;">×</button>
     </div>
 
-    <!-- Chat Header -->
     <div class="chat-header" *ngIf="selectedConversation">
-      <div class="header-user">
-        <div class="header-avatar">{{ getContactInitials() }}</div>
-        <div class="header-info">
-          <div class="header-name">{{ selectedContactName || getParticipantName(selectedConversation) }}</div>
-         </div>
+      <div class="avatar">{{ getContactInitials() }}</div>
+      <div class="chat-title">{{ selectedContactName || getParticipantName(selectedConversation) || 'Select a contact' }}</div>
+    </div>
+
+    <div *ngIf="!selectedConversation" 
+         style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--muted);">
+      <div style="text-align: center;">
+      <p>💬 Select a contact to start a conversation</p>
+<p style="font-size: 12px; margin-top: 8px;">✨ Click a name on the left ✨</p>
+
       </div>
     </div>
 
-    <!-- Empty State -->
-    <div *ngIf="!selectedConversation" class="empty-chat">
-      <div class="empty-chat-content">
-        <div class="empty-chat-icon">💬</div>
-        <h3>Select a conversation</h3>
-        <p>Choose a contact from the sidebar to start chatting</p>
-        <button class="start-chat-btn" (click)="openNewChat()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-          Start New Conversation
-        </button>
+    <div class="messages" #messagesContainer *ngIf="selectedConversation">
+      <div *ngIf="isLoading" 
+           style="text-align: center; padding: 20px; color: var(--muted);">
+        Loading messages...
       </div>
-    </div>
-
-    <!-- Messages -->
-    <div class="messages-container" *ngIf="selectedConversation">
-      <div *ngIf="isLoading" class="loading-messages">
-        <div class="spinner"></div>
-      </div>
-      
       <div *ngIf="!isLoading && (!selectedConversation.messages || selectedConversation.messages.length === 0)" 
-           class="no-messages">
-        <div class="no-messages-icon">📭</div>
-        <p>No messages yet</p>
-        <p class="no-messages-hint">Be the first to send a message!</p>
+           style="text-align: center; padding: 20px; color: var(--muted);">
+        No messages yet. Start the conversation!
       </div>
-
-      <div *ngFor="let msg of selectedConversation?.messages" 
-           class="message-wrapper"
-           [class.message-sent]="msg.sender.id_user === currentUser?.id_user">
-        <div class="message-bubble">
-          <div *ngIf="msg.content" class="message-text">{{ msg.content }}</div>
-          
-          <div *ngIf="msg.fichiers?.length" class="message-files">
-            <div *ngFor="let f of msg.fichiers" class="file-attachment">
+      <div *ngFor="let msg of selectedConversation?.messages" class="msg-row" 
+           [class.me]="msg.sender.id_user === currentUser?.id_user">
+        <div class="avatar">{{ msg.sender.login.slice(0,2) | uppercase }}</div>
+        <div class="msg" [class.me]="msg.sender.id_user === currentUser?.id_user">
+          <div *ngIf="msg.content">{{ msg.content }}</div>
+          <div *ngIf="msg.fichiers?.length" class="files-container">
+            <div *ngFor="let f of msg.fichiers" class="file-item">
               <!-- Image Preview -->
-              <div *ngIf="isImage(f)" class="file-image">
+              <div *ngIf="isImage(f)" class="image-preview">
                 <img [src]="fileUrl(f)" [alt]="f.titre" (error)="handleImageError($event)" 
                      (click)="openImageInNewTab(fileUrl(f))" />
-                <span class="file-label">{{ f.titre }}</span>
+                <div class="file-name">{{ f.titre }}</div>
               </div>
-              <!-- PDF Link -->
-              <div *ngIf="isPdf(f)" class="file-link pdf-file">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="16" y1="13" x2="8" y2="13"></line>
-                  <line x1="16" y1="17" x2="8" y2="17"></line>
-                  <polyline points="10 9 9 9 8 9"></polyline>
-                </svg>
-                <a [href]="fileUrl(f)" target="_blank">{{ f.titre }}</a>
+              <!-- PDF Preview/Link -->
+              <div *ngIf="isPdf(f)" class="pdf-preview">
+                <a [href]="fileUrl(f)" target="_blank" class="pdf-link">
+<span class="pdf-icon">🗎</span>
+                  <span>{{ f.titre }}</span>
+                </a>
               </div>
               <!-- Other Documents -->
-              <div *ngIf="!isImage(f) && !isPdf(f)" class="file-link doc-file">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                </svg>
-                <a [href]="fileUrl(f)" target="_blank">{{ f.titre }}</a>
+              <div *ngIf="!isImage(f) && !isPdf(f)" class="document-preview">
+                <a [href]="fileUrl(f)" target="_blank" class="doc-link">
+<span class="doc-icon">🔗</span>
+                  <span>{{ f.titre }}</span>
+                </a>
               </div>
             </div>
           </div>
-          
-          <div class="message-time">{{ msg.dateCreation | date:'HH:mm' }}</div>
+          <div class="meta">{{ msg.dateCreation | date:'HH:mm' }}</div>
         </div>
       </div>
     </div>
 
-    <!-- Message Composer -->
-    <div class="message-composer" *ngIf="selectedConversation">
-      <div class="composer-actions">
-        <label class="file-attach-btn" title="Attach file">
-          <input type="file" multiple (change)="attachFiles($event)" />
+    <div class="composer" *ngIf="selectedConversation">
+      <div class="composer-wrapper">
+        <div class="file-input-wrapper">
+          <input 
+            type="file" 
+            id="file-input-main" 
+            multiple 
+            (change)="attachFiles($event)" 
+            style="display: none;" />
+          <label for="file-input-main" class="file-attach-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+            </svg>
+          </label>
+        </div>
+        <div class="composer-content">
+          <div *ngIf="selectedFiles.length > 0" class="selected-files-preview">
+            <div *ngFor="let file of selectedFiles; let i = index" class="file-preview-item">
+              <span class="file-name">{{ file.name }}</span>
+              <button type="button" class="file-remove-btn" (click)="removeFile(i)">×</button>
+            </div>
+          </div>
+          <textarea 
+            [(ngModel)]="newMessage" 
+            placeholder="Write a message…"
+            (keydown.enter)="handleEnterKey($event)"></textarea>
+        </div>
+        <button class="send-btn" (click)="sendMessage()" [disabled]="!newMessage.trim() && selectedFiles.length === 0">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
           </svg>
-        </label>
+        </button>
       </div>
-      <textarea 
-        [(ngModel)]="newMessage" 
-        placeholder="Type your message..."
-        rows="1"
-        (keydown.enter)="handleEnterKey($event)"></textarea>
-      <button class="send-btn" (click)="sendMessage()" [disabled]="!newMessage.trim() && selectedFiles.length === 0">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="22" y1="2" x2="11" y2="13"></line>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-        </svg>
-      </button>
     </div>
   </main>
 
-  <!-- RIGHT: Contacts Sidebar -->
-  <aside class="contacts-sidebar">
-    <div class="contacts-header">
-      <h3>Contacts</h3>
-    </div>
-    <div class="contacts-list">
-      <div 
-        *ngFor="let user of contacts" 
-        class="contact-item"
-        (click)="contactClicked(user)">
-        <div class="contact-avatar">{{ (user.nom + ' ' + user.prenom).slice(0,2) | uppercase }}</div>
-        <div class="contact-name">{{ user.nom }} {{ user.prenom }}</div>
+<!-- RIGHT: Contacts -->
+<aside class="panel details">
+  <div class="section">
+    <div class="label">Contacts</div>
+    <div class="chips">
+      <div *ngFor="let user of contacts" class="chip" (click)="contactClicked(user)">
+        {{ user.nom }} {{ user.prenom }}
       </div>
     </div>
-  </aside>
+  </div>
+</aside>
 
-  <!-- New Chat Modal -->
-  <div *ngIf="showNewChatModal" class="modal-overlay" (click)="closeNewChat()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h2>New Conversation</h2>
-        <button class="modal-close" (click)="closeNewChat()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
+<!-- New Chat Modal -->
+<div *ngIf="showNewChatModal" class="modal-overlay" (click)="closeNewChat()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>New Conversation</h3>
+      <button class="close-btn" (click)="closeNewChat()">×</button>
+    </div>
+    
+    <div class="modal-body">
+      <!-- Search Contact -->
+      <div class="new-chat-search">
+        <input 
+          type="text" 
+          placeholder="Search for a contact..." 
+          [(ngModel)]="newChatSearchTerm" 
+          (input)="searchContactsForNewChat()"
+          autofocus />
       </div>
-      
-      <div class="modal-body">
-        <div class="modal-search">
-          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-          <input 
-            type="text" 
-            placeholder="Search for a contact..." 
-            [(ngModel)]="newChatSearchTerm" 
-            (input)="searchContactsForNewChat()"
-            autofocus />
-        </div>
 
-        <div *ngIf="newChatSearchTerm && filteredContactsForNewChat.length > 0" class="modal-contact-list">
+      <ng-container *ngIf="newChatSearchTerm && newChatSearchTerm.trim() && !selectedContactForNewChat">
+        <div *ngIf="filteredContactsForNewChat && filteredContactsForNewChat.length > 0; else noContactsTemplate" class="contact-list">
           <div 
             *ngFor="let user of filteredContactsForNewChat" 
-            class="modal-contact-item"
+            class="contact-item"
             (click)="selectContactForNewChat(user)">
-            <div class="modal-contact-avatar">{{ (user.nom + ' ' + user.prenom).slice(0,2) | uppercase }}</div>
-            <div class="modal-contact-info">
-              <div class="modal-contact-name">{{ user.nom }} {{ user.prenom }}</div>
-              <div class="modal-contact-login">{{ user.login }}</div>
+            <div class="avatar">{{ (user.nom + ' ' + user.prenom).slice(0,2) | uppercase }}</div>
+            <div class="contact-info">
+              <div class="contact-name">{{ user.nom }} {{ user.prenom }}</div>
+              <div class="contact-login">{{ user.login }}</div>
             </div>
           </div>
         </div>
 
-        <div *ngIf="newChatSearchTerm && filteredContactsForNewChat.length === 0" class="modal-no-results">
-          No contacts found
-        </div>
+        <ng-template #noContactsTemplate>
+          <div class="no-results">
+            No contacts found
+          </div>
+        </ng-template>
+      </ng-container>
 
-        <div *ngIf="selectedContactForNewChat" class="modal-selected-contact">
-          <div class="selected-contact-avatar">{{ (selectedContactForNewChat.nom + ' ' + selectedContactForNewChat.prenom).slice(0,2) | uppercase }}</div>
-          <div class="selected-contact-details">
-            <div class="selected-contact-name">{{ selectedContactForNewChat.nom }} {{ selectedContactForNewChat.prenom }}</div>
-            <div class="selected-contact-login">{{ selectedContactForNewChat.login }}</div>
+      <!-- Selected Contact -->
+      <div *ngIf="selectedContactForNewChat" class="selected-contact">
+        <div class="selected-contact-info">
+          <div class="avatar">{{ (selectedContactForNewChat.nom + ' ' + selectedContactForNewChat.prenom).slice(0,2) | uppercase }}</div>
+          <div>
+            <div class="contact-name">{{ selectedContactForNewChat.nom }} {{ selectedContactForNewChat.prenom }}</div>
+            <div class="contact-login">{{ selectedContactForNewChat.login }}</div>
           </div>
         </div>
+      </div>
 
-        <div *ngIf="selectedContactForNewChat" class="modal-message-input">
-          <textarea 
-            [(ngModel)]="newChatMessage" 
-            placeholder="Type your message..."
-            rows="4"></textarea>
-          <label class="modal-file-input">
-            <input type="file" multiple (change)="attachFiles($event)" />
-            <span>Attach files</span>
-          </label>
+      <!-- Message Input -->
+      <div *ngIf="selectedContactForNewChat" class="new-chat-message">
+        <div class="message-composer-wrapper">
+          <div *ngIf="selectedFiles.length > 0" class="selected-files-preview">
+            <div *ngFor="let file of selectedFiles; let i = index" class="file-preview-item">
+              <span class="file-name">{{ file.name }}</span>
+              <button type="button" class="file-remove-btn" (click)="removeFile(i)">×</button>
+            </div>
+          </div>
+          <div class="message-input-row">
+            <div class="file-input-wrapper">
+              <input 
+                type="file" 
+                id="file-input-modal" 
+                multiple 
+                (change)="attachFiles($event)" 
+                style="display: none;" />
+              <label for="file-input-modal" class="file-attach-btn-modal">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                </svg>
+                <span>Attach</span>
+              </label>
+            </div>
+            <textarea 
+              [(ngModel)]="newChatMessage" 
+              placeholder="Type your message..."
+              rows="3"
+              class="modal-textarea"></textarea>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="modal-footer">
-        <button class="modal-btn-cancel" (click)="closeNewChat()">Cancel</button>
-        <button 
-          class="modal-btn-send" 
-          (click)="startNewConversation()" 
-          [disabled]="!selectedContactForNewChat || (!newChatMessage.trim() && selectedFiles.length === 0) || isLoading">
-          {{ isLoading ? 'Starting...' : 'Start Conversation' }}
-        </button>
-      </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeNewChat()">Cancel</button>
+      <button 
+        class="btn-send" 
+        (click)="startNewConversation()" 
+        [disabled]="!selectedContactForNewChat || (!newChatMessage.trim() && selectedFiles.length === 0) || isLoading">
+  {{ isLoading ? '⏳ Starting...' : '💬 Start Chat' }}
+      </button>
     </div>
   </div>
+</div>
+
 </div>

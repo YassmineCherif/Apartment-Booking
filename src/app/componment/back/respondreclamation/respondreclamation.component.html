@@ -1,0 +1,32 @@
+<div class="reclamation-container">
+<h2>Consulter les réclamations</h2>
+  <div class="reclamation-list">
+    <div *ngFor="let rec of reclamations" class="reclamation-card">  <div class="header">
+    <span>{{ rec.titre }}</span>
+
+
+<span class="status-emoji">
+          <ng-container [ngSwitch]="rec.etatReclamation?.trim()">
+            <span *ngSwitchCase="'EN_ATTENTE'">⌛</span>
+            <span *ngSwitchCase="'APPROUVE'">✅</span>
+            <span *ngSwitchCase="'REJETE'">📛</span>
+            <span *ngSwitchDefault>❔</span>
+          </ng-container>
+        </span>
+
+
+    </div>
+  <p><strong>Utilisateur:</strong> {{ getUserName(rec) }}</p>
+  <p>{{ rec.description }}</p>
+  <p><strong>Localisation:</strong> {{ rec.localisation }}</p>
+  <p><strong>Date:</strong> {{ rec.date | date:'shortDate' }}</p>
+  
+  <!-- Only show buttons if status is EN_ATTENTE -->
+  <div class="actions" *ngIf="rec.etatReclamation === ETAT.EN_ATTENTE">
+    <button (click)="updateStatus(rec.id_reclamation!, ETAT.APPROUVE)">Approuver</button>
+    <button (click)="updateStatus(rec.id_reclamation!, ETAT.REJETE)">Rejeter</button>
+  </div>
+</div>
+
+</div>
+</div>

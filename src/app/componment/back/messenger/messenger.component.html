@@ -6,25 +6,25 @@
       <div>
         <div class="sidebar-title">Messages</div>
         <div style="font-size:12px;color:var(--muted)">
-          Connected as {{ currentUser?.login }}
+         Connecté en tant que {{ currentUser?.login }}
         </div>
       </div>
       <div style="margin-left:auto;display:flex;gap:8px">
-        <button class="icon-btn" title="New chat" (click)="openNewChat()">➕</button>
+        <button class="icon-btn" title="Nouvelle conversation" (click)="openNewChat()">➕</button>
        </div>
     </div>
 
     <div class="search">
-      <input placeholder="Search contacts" [(ngModel)]="searchTerm" (input)="searchContacts()" />
+      <input placeholder="Recherche de contacts" [(ngModel)]="searchTerm" (input)="searchContacts()" />
     </div>
 
     <div class="convos">
       <div *ngIf="isLoading" style="text-align: center; padding: 20px; color: var(--muted);">
-        Loading conversations...
+        Chargement des conversations...
       </div>
       <div *ngIf="!isLoading && filteredConversations.length === 0" 
            style="text-align: center; padding: 20px; color: var(--muted);">
-        No conversations found
+        Aucune conversation trouvée
       </div>
       <div *ngFor="let conv of filteredConversations" class="convo"
            [class.active]="conv === selectedConversation"
@@ -56,19 +56,20 @@
     <div *ngIf="!selectedConversation" 
          style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--muted);">
       <div style="text-align: center;">
-        <p>Select a contact to start a conversation</p>
-        <p style="font-size: 12px; margin-top: 8px;">Click on a contact from the right sidebar</p>
+        <p>Sélectionnez un contact pour démarrer une conversation</p>
+        <p style="font-size: 12px; margin-top: 8px;">Cliquez sur un contact dans la barre latérale droite.
+</p>
       </div>
     </div>
 
     <div class="messages" #messagesContainer *ngIf="selectedConversation">
       <div *ngIf="isLoading" 
            style="text-align: center; padding: 20px; color: var(--muted);">
-        Loading messages...
+       Chargement des messages...
       </div>
       <div *ngIf="!isLoading && (!selectedConversation.messages || selectedConversation.messages.length === 0)" 
            style="text-align: center; padding: 20px; color: var(--muted);">
-        No messages yet. Start the conversation!
+        Aucun message pour l'instant. Lancez la conversation !
       </div>
       <div *ngFor="let msg of selectedConversation?.messages" class="msg-row" 
            [class.me]="msg.sender.id_user === currentUser?.id_user">
@@ -128,7 +129,7 @@
           </div>
           <textarea 
             [(ngModel)]="newMessage" 
-            placeholder="Write a message…"
+            placeholder="Écrire un message…"
             (keydown.enter)="handleEnterKey($event)"></textarea>
         </div>
         <button class="send-btn" (click)="sendMessage()" [disabled]="!newMessage.trim() && selectedFiles.length === 0">
@@ -157,7 +158,7 @@
 <div *ngIf="showNewChatModal" class="modal-overlay" (click)="closeNewChat()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h3>New Conversation</h3>
+      <h3>Nouvelle conversation</h3>
       <button class="close-btn" (click)="closeNewChat()">×</button>
     </div>
     
@@ -166,7 +167,7 @@
       <div class="new-chat-search">
         <input 
           type="text" 
-          placeholder="Search for a contact..." 
+          placeholder="Rechercher un contact..." 
           [(ngModel)]="newChatSearchTerm" 
           (input)="searchContactsForNewChat()"
           autofocus />
@@ -189,7 +190,7 @@
 
         <ng-template #noContactsTemplate>
           <div class="no-results">
-            No contacts found
+            Aucun contact trouvé
           </div>
         </ng-template>
       </ng-container>
@@ -231,7 +232,7 @@
             </div>
             <textarea 
               [(ngModel)]="newChatMessage" 
-              placeholder="Type your message..."
+              placeholder="Saisissez votre message..."
               rows="3"
               class="modal-textarea"></textarea>
           </div>
@@ -240,12 +241,12 @@
     </div>
 
     <div class="modal-footer">
-      <button class="btn-cancel" (click)="closeNewChat()">Cancel</button>
+      <button class="btn-cancel" (click)="closeNewChat()">Annuler</button>
       <button 
         class="btn-send" 
         (click)="startNewConversation()" 
         [disabled]="!selectedContactForNewChat || (!newChatMessage.trim() && selectedFiles.length === 0) || isLoading">
-        {{ isLoading ? 'Starting...' : 'Start Conversation' }}
+        {{ isLoading ? 'Début...' : 'Démarrer une conversation' }}
       </button>
     </div>
   </div>

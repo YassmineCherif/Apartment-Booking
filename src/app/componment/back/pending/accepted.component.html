@@ -1,17 +1,17 @@
 <div class="container mt-3">
-  <h3 class="page-title">Pending Users</h3>
+  <h3 class="page-title">Utilisateurs en attente</h3>
 
-  <div *ngIf="loading">Loading...</div>
+  <div *ngIf="loading">Chargement...</div>
   <div *ngIf="error" class="text-danger">{{ error }}</div>
 
   <div *ngIf="!loading && pending.length > 0" class="table-card">
     <table class="table mb-0">
       <thead>
         <tr>
-          <th>Name</th>
+          <th>Nom</th>
           <th>Email</th>
-          <th>Phone Number</th>
-          <th>Role</th>
+          <th>Numéro de téléphone</th>
+          <th>Rôle</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -20,23 +20,21 @@
           <td>{{ user.prenom }} {{ user.nom }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.numerotelephone }}</td>
-          <td>{{ user.user_role === 'CLIENT' ? 'Resident' : user.user_role }}</td>
+          <td>{{ user.user_role === 'CLIENT' ? 'Résident' : user.user_role }}</td>
           <td>
             <button class="btn btn-success btn-sm me-3" (click)="setApproval(user.id_user, true)">
-              Accept
+              Accepter
             </button>
             <button class="btn btn-danger btn-sm" (click)="setApproval(user.id_user, false)">
-              Decline
+              Refuser
             </button>
           </td>
-
-
         </tr>
       </tbody>
     </table>
   </div>
 
   <div *ngIf="!loading && pending.length === 0" class="text-muted">
-    No pending users.
+    Aucun utilisateur en attente.
   </div>
 </div>

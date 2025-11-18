@@ -6,6 +6,7 @@ import { Pays } from 'src/app/models/Pays';
 import { Residence } from 'src/app/models/Residence';
 import { Bloc } from 'src/app/models/bloc';
 import { Appartement } from 'src/app/models/appartement';
+import { USER_ROLE } from '../admin/admin.component';
 
 @Component({
   selector: 'app-respond-reservation',
@@ -27,12 +28,22 @@ export class RespondReservationComponent implements OnInit {
   reservations: Reservation[] = [];
   allReservations: Reservation[] = [];
 
+
+    currentUserRole: USER_ROLE | null = null;
+  USER_ROLE = USER_ROLE; // For template access
+
+
   constructor(
     private reservationService: ReservationService,
     private appartementService: AppartementService
   ) {}
 
   ngOnInit(): void {
+const role = sessionStorage.getItem('role');
+    if (role) {
+      this.currentUserRole = role as USER_ROLE;
+      console.log('RespondReservationComponent role:', this.currentUserRole);
+    }
     this.loadPays();
     this.loadAllReservations();
   }

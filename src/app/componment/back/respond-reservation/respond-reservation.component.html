@@ -45,19 +45,21 @@
           </p>
 
            <div *ngIf="r.approved === 2" class="d-flex mt-1">
-             <button 
-               class="btn btn-success btn-md" 
-               (click)="acceptReservation(r)" 
-               style="margin-right: 0.5cm; padding: 0.35rem 0.8rem; font-size: 0.95rem;">
-               Accepter
-             </button>
-             <button 
-               class="btn btn-danger btn-md" 
-               (click)="declineReservation(r)" 
-               style="padding: 0.35rem 0.8rem; font-size: 0.95rem;">
-               Refuser
-             </button>
-           </div>
+            <button *ngIf="currentUserRole === USER_ROLE.ADMIN"
+                    class="btn btn-success btn-md" 
+                    (click)="acceptReservation(r)" 
+                    style="margin-right: 0.5cm; padding: 0.35rem 0.8rem; font-size: 0.95rem;">
+              Accepter
+            </button>
+
+            <button *ngIf="currentUserRole === USER_ROLE.ADMIN"
+                    class="btn btn-danger btn-md" 
+                    (click)="declineReservation(r)" 
+                    style="padding: 0.35rem 0.8rem; font-size: 0.95rem;">
+              Refuser
+            </button>
+          </div>
+
 
 
 

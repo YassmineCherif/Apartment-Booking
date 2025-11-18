@@ -1,41 +1,40 @@
 <div class="d-flex" id="wrapper">
   <!-- Sidebar -->
   <div class="bg-dark border-end" id="sidebar-wrapper">
-    <div class="sidebar-heading text-white p-3">My Backoffice</div>
+    <div class="sidebar-heading text-white p-3">Mon Backoffice</div>
     <div class="list-group list-group-flush"> 
 
       <!-- ADMIN Links -->
-      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="pending" class="list-group-item list-group-item-action bg-dark text-white">Pending Users</a>
+      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="pending" class="list-group-item list-group-item-action bg-dark text-white">Utilisateurs en attente</a>
       <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="pays" class="list-group-item list-group-item-action bg-dark text-white">Pays</a>
       <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="residences" class="list-group-item list-group-item-action bg-dark text-white">Residences</a>
       <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="blocs" class="list-group-item list-group-item-action bg-dark text-white">Blocs</a>
-      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="apartements" class="list-group-item list-group-item-action bg-dark text-white">Apartments</a>
-      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="respond" class="list-group-item list-group-item-action bg-dark text-white">Reservations</a>
-      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="reclamatiom" class="list-group-item list-group-item-action bg-dark text-white">Reclamations</a>
-
+      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="apartements" class="list-group-item list-group-item-action bg-dark text-white">Appartements</a>
+      <a  routerLink="respond" class="list-group-item list-group-item-action bg-dark text-white">Reservations</a>
+      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="respondreclamation" class="list-group-item list-group-item-action bg-dark text-white">Reclamations</a>
+ 
       <!-- CONCIERGE Links -->
       <a routerLink="messenger" class="list-group-item list-group-item-action bg-dark text-white">Messages</a>
+      <a *ngIf="currentUserRole === USER_ROLE.CONCIERGE" routerLink="reclamer" class="list-group-item list-group-item-action bg-dark text-white">Reclamations</a>
 
     </div>
   </div>
 
   <!-- Page Content -->
-  <div id="page-content-wrapper" class="w-100">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom justify-content-between">
-      <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
-
-      <div>
-        <button class="btn btn-outline-secondary me-2" [routerLink]="['/admin/dashboard']">
-          <i class="bi bi-person-circle"></i> Profile
-        </button>
-        <button class="btn btn-danger" (click)="logout()">
-          <i class="bi bi-box-arrow-right"></i> Logout
-        </button>
-      </div>
-    </nav>
-
-    <div class="container-fluid mt-4">
-      <router-outlet></router-outlet>
+ <div id="page-content-wrapper" class="w-100">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="ms-auto">
+      <button class="btn btn-outline-secondary me-2" [routerLink]="['/admin/dashboard']">
+        <i class="bi bi-person-circle"></i> Profile
+      </button>
+      <button class="btn btn-danger" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i> Déconnexion
+      </button>
     </div>
+  </nav>
+
+  <div class="container-fluid mt-4">
+    <router-outlet></router-outlet>
   </div>
 </div>
+

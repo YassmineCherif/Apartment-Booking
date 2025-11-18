@@ -1,0 +1,129 @@
+/* --- Global Reservation Container --- */
+.container {
+    max-width: 900px; 
+    margin: 3rem auto;
+    padding: 0;
+}
+
+/* --- Page Title Styling (Mes Réservations) --- */
+.page-title {
+    color: #333333;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #51B8C0; /* Teal accent line */
+    text-align: center;
+}
+
+/* --- Empty Reservation Alert --- */
+.alert.alert-info {
+    background-color: #f7feff; /* Very light teal background */
+    border: 1px solid #c9e9eb;
+    color: #51B8C0;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* --- Reservation Card Styling --- */
+.card {
+    /* Subtle border in the teal secondary color */
+    border: 1px solid #c9e9eb; 
+    border-radius: 8px;
+    margin-bottom: 1.5rem !important; /* Overrides mb-3 */
+    background-color: #ffffff;
+    transition: box-shadow 0.3s ease;
+    overflow: hidden; /* Important for containing rounded corners */
+}
+
+.card.shadow-sm:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+.row.g-0 {
+    display: flex;
+}
+
+/* --- Image Styling --- */
+.col-md-4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px; /* Add slight padding around image */
+    background-color: #f4f6f8; /* Light gray background for image section */
+}
+
+.img-fluid.rounded-start {
+    /* Ensure image takes up space nicely */
+    width: 100%;
+    height: 180px; /* Fixed height for consistency */
+    object-fit: cover; /* Maintain aspect ratio */
+    border-radius: 6px;
+}
+
+/* --- Card Body and Details --- */
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-body strong {
+    color: #333333; /* Darker color for labels */
+    font-weight: 600;
+    margin-right: 0.25rem;
+}
+
+.card-body p.card-text {
+    font-style: italic;
+    color: #777777;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+/* --- Reservation Dates and Status Block --- */
+.card-body p.mb-1,
+.card-body p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* --- Status Badges (Overriding Bootstrap text-colors) --- */
+.card-body span {
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+    color: white !important; /* Make status text white for better badge contrast */
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+/* Approved Status */
+.card-body .text-success {
+    background-color: #4CAF50; /* Green */
+}
+
+/* Refused Status */
+.card-body .text-danger {
+    background-color: #E74C3C; /* Red */
+}
+
+/* Pending Status */
+.card-body .text-warning {
+    background-color: #E5A84F; /* Gold/Orange-Brown accent */
+}
+
+/* Adjustments for smaller screens if needed (optional) */
+@media (max-width: 767px) {
+    .row.g-0 {
+        flex-direction: column;
+    }
+    .img-fluid.rounded-start {
+        border-radius: 6px 6px 0 0 !important;
+    }
+    .col-md-4, .col-md-8 {
+        width: 100%;
+    }
+}

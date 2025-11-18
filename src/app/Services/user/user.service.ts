@@ -67,6 +67,8 @@ sendRecoveryEmail(email: string): Observable<string> {
   );
 }
 
-
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/all`);
+  }
 
 }

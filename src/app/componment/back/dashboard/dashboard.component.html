@@ -1,12 +1,12 @@
 <div class="container mt-3">
-  <h3 class="page-title text-center mb-4">Update Profile</h3>
+  <h3 class="page-title text-center mb-4">Mettre à jour le profil</h3>
 
   <div class="card p-4 shadow-sm">
     <form (ngSubmit)="onSubmit()" #updateProfileForm="ngForm">
 
-      <!-- Name -->
+      <!-- Nom -->
       <div class="mb-3">
-        <label for="nom" class="form-label">First Name</label>
+        <label for="nom" class="form-label">Prénom</label>
         <input
           type="text"
           id="nom"
@@ -17,9 +17,9 @@
         />
       </div>
 
-      <!-- Surname -->
+      <!-- Prénom -->
       <div class="mb-3">
-        <label for="prenom" class="form-label">Last Name</label>
+        <label for="prenom" class="form-label">Nom de famille</label>
         <input
           type="text"
           id="prenom"
@@ -43,9 +43,9 @@
         />
       </div>
 
-      <!-- Phone -->
+      <!-- Téléphone -->
       <div class="mb-3">
-        <label for="numtel" class="form-label">Phone Number</label>
+        <label for="numtel" class="form-label">Numéro de téléphone</label>
         <input
           type="text"
           id="numtel"
@@ -56,9 +56,9 @@
         />
       </div>
 
-      <!-- Address -->
+      <!-- Adresse -->
       <div class="mb-3">
-        <label for="adresse" class="form-label">Address</label>
+        <label for="adresse" class="form-label">Adresse</label>
         <input
           type="text"
           id="adresse"
@@ -68,35 +68,35 @@
         />
       </div>
 
-      <!-- Password -->
+      <!-- Mot de passe -->
       <div class="mb-3">
-        <label for="password" class="form-label">New Password</label>
+        <label for="password" class="form-label">Nouveau mot de passe</label>
         <input
           type="password"
           id="password"
           name="password"
           class="form-control"
           [(ngModel)]="password"
-          placeholder="Enter new password"
+          placeholder="Entrez le nouveau mot de passe"
         />
       </div>
 
-      <!-- Confirm Password -->
+      <!-- Confirmer le mot de passe -->
       <div class="mb-3">
-        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
         <input
           type="password"
           id="confirmPassword"
           name="confirmPassword"
           class="form-control"
           [(ngModel)]="confirmPassword"
-          placeholder="Confirm your password"
+          placeholder="Confirmez votre mot de passe"
         />
       </div>
 
       <div class="d-flex justify-content-between">
-        <button type="submit" class="btn btn-success">Update Profile</button>
-        <button type="button" class="btn btn-secondary" (click)="ngOnInit()">Reset</button>
+        <button type="submit" class="btn btn-success">Mettre à jour</button>
+        <button type="button" class="btn btn-secondary" (click)="ngOnInit()">Réinitialiser</button>
       </div>
 
       <div class="mt-3">

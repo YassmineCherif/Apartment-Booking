@@ -22,6 +22,10 @@ import { PendingComponent } from './componment/back/pending/accepted.component';
  import { ForgotComponent } from './componment/front/login/forgot-password/forgot/forgot.component';
  import { MessengerComponent } from './componment/back/messenger/messenger.component';
 import { ChatComponent } from './componment/front/chat/chat.component';
+import { ReclamationComponent } from './componment/front/reclamation/reclamation.component';
+import { RespondreclamationComponent } from './componment/back/respondreclamation/respondreclamation.component';
+ import { ReclamerComponent } from './componment/back/reclamer/reclamer.component';
+
 
 const routes: Routes = [
 
@@ -38,6 +42,7 @@ const routes: Routes = [
    {path: 'profile', component: UpdateProfileComponent },
    {path: 'forgot', component: ForgotComponent },
    {path: 'chat', component: ChatComponent },
+    {path: 'reclamation', component: ReclamationComponent },
   // back office (nested under /admin)
   { 
     path: 'admin', 
@@ -52,7 +57,9 @@ const routes: Routes = [
       { path: 'respond', component: RespondReservationComponent },
       { path: 'forum', component: ForumComponent },
       { path: 'pending', component: PendingComponent },
-      {path: 'messenger', component: MessengerComponent }
+      {path: 'messenger', component: MessengerComponent },
+      {path: 'respondreclamation', component: RespondreclamationComponent },
+      {path: 'reclamer', component: ReclamerComponent }
     ]
   },
 

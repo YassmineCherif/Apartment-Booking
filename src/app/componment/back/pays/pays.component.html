@@ -1,13 +1,13 @@
 <div class="container mt-3">
-  <h3 class="page-title">Pays Management</h3>
+  <h3 class="page-title">Gestion des Pays</h3>
 
   <div class="row mb-3">
     <div class="col-md-6">
-      <input type="text" class="form-control" placeholder="Search by country name"
+      <input type="text" class="form-control" placeholder="Rechercher par nom de pays"
              [(ngModel)]="searchTerm" (input)="filterPays()" />
     </div>
     <div class="col-md-6 text-end">
-      <button class="btn btn-success" (click)="openCreateModal()">Add Pays</button>
+      <button class="btn btn-success" (click)="openCreateModal()">Ajouter un Pays</button>
     </div>
   </div>
 
@@ -23,26 +23,26 @@
           </p>
         </div>
         <div class="card-footer d-flex justify-content-between">
-          <button class="btn btn-primary btn-sm" (click)="openEditModal(p)">Edit</button>
-          <button class="btn btn-danger btn-sm" (click)="deletePays(p.id_country)">Delete</button>
+          <button class="btn btn-primary btn-sm" (click)="openEditModal(p)">Modifier</button>
+          <button class="btn btn-danger btn-sm" (click)="deletePays(p.id_country)">Supprimer</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Create/Update Modal -->
+<!-- Modal Création/Édition -->
 <div class="modal fade" id="paysModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog" style="margin-top: 250px;">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">{{ paysToUpdate?.id_country ? 'Edit Pays' : 'Create Pays' }}</h5>
+        <h5 class="modal-title">{{ paysToUpdate?.id_country ? 'Modifier le Pays' : 'Créer un Pays' }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <form *ngIf="paysToUpdate">
           <div class="mb-3">
-            <label class="form-label">Country Name</label>
+            <label class="form-label">Nom du Pays</label>
             <input type="text" class="form-control" [(ngModel)]="paysToUpdate.pays" name="pays" required />
           </div>
           <div class="mb-3">
@@ -60,9 +60,9 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
         <button type="button" class="btn btn-primary" (click)="savePays()">
-          {{ paysToUpdate?.id_country ? 'Update' : 'Create' }}
+          {{ paysToUpdate?.id_country ? 'Mettre à jour' : 'Créer' }}
         </button>
       </div>
     </div>

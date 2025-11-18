@@ -1,0 +1,220 @@
+/* --- Global Container Styling --- */
+.reclamation-container {
+    max-width: 900px; 
+    margin: 3rem auto;
+    padding: 0; /* Remove container padding since the cards are full width */
+    background-color: transparent; 
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.reclamation-container h2 {
+    color: #333333; 
+    /* The image shows a simple line beneath the title */
+    border-bottom: 2px solid #51B8C0; 
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem; /* Increased margin for separation */
+    font-size: 1.8rem;
+    padding-left: 0.5rem; /* Slight indentation */
+}
+
+/* --- Add Reclamation Button Styling (Matching Plus Sign in the image) --- */
+.add-btn {
+    /* Style the plus icon */
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem; 
+    color: #51B8C0; /* Teal color for the icon */
+    padding: 0 0 1rem 0.5rem; /* Add spacing beneath it */
+    margin: 0;
+    display: block; /* Takes its own line */
+    transition: color 0.2s ease;
+}
+
+.add-btn:hover {
+    color: #449fa8;
+}
+
+/* --- Reclamation Card Styling (List items - Mimicking Reservation Card) --- */
+.reclamation-card {
+    /* White background with shadow, like the Reservation cards */
+    background-color: #ffffff; 
+    border: 1px solid #e0e0e0; /* Light border */
+    border-radius: 8px;
+    margin-bottom: 1.5rem; 
+    padding: 1.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow like the Reservation cards */
+    transition: box-shadow 0.3s ease;
+    
+    /* Enforce flex layout for title/status separation */
+    display: flex;
+    flex-direction: column;
+}
+
+.reclamation-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.reclamation-card .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+    color: #333333;
+    /* Add a separating line beneath the header, similar to implicit separation in the image */
+    border-bottom: 1px dashed #e0e0e0;
+    padding-bottom: 0.5rem;
+}
+
+.reclamation-card p {
+    margin: 0.4rem 0;
+    line-height: 1.4;
+    color: #555555;
+    font-size: 1rem;
+}
+
+.reclamation-card strong {
+    color: #333333; 
+    font-weight: 700;
+}
+
+
+
+/* --- Status Badge/Emoji Styling --- */
+.status-emoji {
+    font-size: 1.5rem;       /* rend l’emoji plus grand */
+    font-weight: 900;        
+    display: inline-block;
+    min-width: 70px;         
+    text-align: center;
+    margin-left: auto;        /* pousse le badge à droite du container parent */
+}
+
+/* Si tu veux forcer l’emoji à rester bien visible et blanc */
+.status-emoji span {
+    color: white !important;
+    font-size: 1.5rem;       /* augmente encore si besoin */
+    font-weight: 900;
+}
+
+ 
+
+
+/* --- Actions (Delete Button) --- */
+.reclamation-card .actions {
+    display: flex;
+    justify-content: flex-end; /* Align button to the right */
+    padding-top: 0.5rem;
+}
+
+.reclamation-card .actions button {
+    /* Make the delete button look like a subtle, secondary action */
+    background-color: #f7f7f7;
+    border: 1px solid #cccccc;
+    color: #E74C3C; /* Red icon/text */
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.reclamation-card .actions button:hover {
+    background-color: #ededed;
+    border-color: #bbbbbb;
+}
+
+/* --- Modal Styling (Kept consistent with previous versions) --- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+    color: #333333;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.modal-content .close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #aaa;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.modal-content .close:hover {
+    color: #555;
+}
+
+/* --- Form Input Styling --- */
+.modal-content .form input[type="text"],
+.modal-content .form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-content .form input[type="text"]:focus,
+.modal-content .form textarea:focus {
+    border-color: #E5A84F; 
+    outline: none;
+    box-shadow: 0 0 5px rgba(229, 168, 79, 0.5);
+}
+
+.modal-content .form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* --- Form Submission Button --- */
+.modal-content .form button {
+    background-color: #E5A84F;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    width: 100%;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+.modal-content .form button:hover {
+    background-color: #d6943e;
+}

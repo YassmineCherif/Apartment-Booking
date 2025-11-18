@@ -32,6 +32,9 @@ import { PendingComponent } from './componment/back/pending/accepted.component';
 import { MessengerComponent } from './componment/back/messenger/messenger.component';
 import { UpdateProfileComponent } from './componment/front/profile/profile.component';
 import { ForgotComponent } from './componment/front/login/forgot-password/forgot/forgot.component';
+import { ReclamationComponent } from './componment/front/reclamation/reclamation.component';
+import { RespondreclamationComponent } from './componment/back/respondreclamation/respondreclamation.component';
+import { ReclamerComponent } from './componment/back/reclamer/reclamer.component';
  
 @NgModule({
   declarations: [
@@ -65,6 +68,9 @@ import { ForgotComponent } from './componment/front/login/forgot-password/forgot
     MessengerComponent,
     UpdateProfileComponent,
     ForgotComponent,
+    ReclamationComponent,
+    RespondreclamationComponent,
+    ReclamerComponent,
  
     
     

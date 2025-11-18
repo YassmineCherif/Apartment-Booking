@@ -171,4 +171,3 @@ public class ChatController {
         return ResponseEntity.ok(userRepository.findByUserRoleNot(roleToExclude));
     }
 }
-

@@ -26,6 +26,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    // Fetch all users
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
     public User findByLoginOrEmail(String loginOrEmail) {
         User user = userRepository.findByLogin(loginOrEmail);
         if (user == null) {
@@ -82,6 +87,24 @@ public class UserService {
         mailSender.send(message);
         System.out.println("Email envoyé avec succès...");
     }
+
+
+
+    public void sendHtmlEmail(String toEmail, String subject, String htmlBody) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setFrom("indila205@gmail.com");
+            helper.setTo(toEmail);
+            helper.setSubject(subject);
+            helper.setText(htmlBody, true); // true = HTML
+            mailSender.send(message);
+            System.out.println("Email envoyé avec succès...");
+        } catch (MessagingException e) {
+            System.err.println("Erreur lors de l'envoi de l'email à " + toEmail + ": " + e.getMessage());
+        }
+    }
+
 
     public void resetPassword(String email) {
         User user = userRepository.findByEmail(email);

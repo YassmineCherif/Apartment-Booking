@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.Set;
 
 @Entity
- @Data
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {

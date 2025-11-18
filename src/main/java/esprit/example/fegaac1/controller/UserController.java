@@ -3,6 +3,7 @@ package esprit.example.fegaac1.controller;
 import esprit.example.fegaac1.entities.EmailRequest;
 import esprit.example.fegaac1.entities.USER_ROLE;
 import esprit.example.fegaac1.entities.User;
+import esprit.example.fegaac1.repository.UserRepository;
 import esprit.example.fegaac1.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
@@ -24,6 +25,13 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
+    @GetMapping("/all")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+
+
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestParam String login,
@@ -134,4 +142,9 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Une erreur inattendue est survenue");
         }
     }
+
+
+
+
+
 }

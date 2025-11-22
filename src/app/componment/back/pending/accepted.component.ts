@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/Services/user/user.service';
 import { User } from 'src/app/models/user';
+import { USER_ROLE } from 'src/app/models/USER_ROLE';
 
 @Component({
   selector: 'app-accepted',
@@ -13,6 +14,8 @@ export class PendingComponent implements OnInit {
   loading = false;
   error: string | null = null;
 
+  userRole = USER_ROLE;
+
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
@@ -21,17 +24,20 @@ export class PendingComponent implements OnInit {
 
 
   
-  loadPendingUsers(): void {
+loadPendingUsers(): void {
   this.loading = true;
   this.error = null;
 
   this.userService.getPendingUsers().subscribe({
     next: (users) => {
-      // Keep only pending users (approved === 2)
+      console.log('All users from API:', users); // log the whole user array
       this.pending = users.filter(u => u.approved === 2);
+      console.log('Filtered pending users:', this.pending); // log filtered list
+      this.pending.forEach(u => console.log(u.userRole)); // log each role
       this.loading = false;
     },
-    error: () => {
+    error: (err) => {
+      console.error('Error loading users:', err);
       this.error = 'Failed to load users';
       this.loading = false;
     },

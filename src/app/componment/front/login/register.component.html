@@ -13,16 +13,16 @@
     <div class="role-options">
       <div class="title">Choisissez votre rôle</div>
       <div class="options">
-        <label class="option" [class.active]="user_role === 'CLIENT'">
-          <input type="radio" [(ngModel)]="user_role" name="user_role" [value]="'CLIENT'">
+        <label class="option" [class.active]="userRole === 'CLIENT'">
+          <input type="radio" [(ngModel)]="userRole" name="user_role" [value]="'CLIENT'">
           <span>RÉSIDENT</span>
         </label>
-        <label class="option" [class.active]="user_role === 'CONCIERGE'">
-          <input type="radio" [(ngModel)]="user_role" name="user_role" [value]="'CONCIERGE'">
+        <label class="option" [class.active]="userRole === 'CONCIERGE'">
+          <input type="radio" [(ngModel)]="userRole" name="user_role" [value]="'CONCIERGE'">
           <span>CONCIERGE</span>
         </label>
-        <label class="option" [class.active]="user_role === 'ADMIN'">
-          <input type="radio" [(ngModel)]="user_role" name="user_role" [value]="'ADMIN'">
+        <label class="option" [class.active]="userRole === 'ADMIN'">
+          <input type="radio" [(ngModel)]="userRole" name="user_role" [value]="'ADMIN'">
           <span>ADMIN</span>
         </label>
       </div>

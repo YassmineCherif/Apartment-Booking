@@ -48,7 +48,7 @@ export class MessengerComponent implements OnInit {
         this.currentUser = user;
 
         // Fetch all users excluding current user's role and logged-in user
-        const roleToExclude = this.currentUser?.user_role || 'ADMIN';
+        const roleToExclude = this.currentUser?.userRole || 'ADMIN';
         this.chatService.getAllUsers(roleToExclude).subscribe({
           next: (users) => {
             this.allUsers = users.filter(u => u.id_user !== this.currentUser?.id_user);

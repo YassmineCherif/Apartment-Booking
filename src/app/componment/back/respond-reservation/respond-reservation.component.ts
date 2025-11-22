@@ -30,7 +30,7 @@ export class RespondReservationComponent implements OnInit {
 
 
     currentUserRole: USER_ROLE | null = null;
-  USER_ROLE = USER_ROLE; // For template access
+  userRole = USER_ROLE; // For template access
 
 
   constructor(

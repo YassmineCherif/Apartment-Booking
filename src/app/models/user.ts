@@ -17,7 +17,7 @@ export interface User {
   cin: string;
   approved: number;
   numerotelephone: string;
-  user_role: USER_ROLE;
+    userRole: USER_ROLE;
   adresse: string;
   login: string;
   mdp: string;

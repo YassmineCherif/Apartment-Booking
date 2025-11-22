@@ -14,7 +14,7 @@ export enum USER_ROLE {
 })
 export class AdminComponent implements OnInit {
   currentUserRole: USER_ROLE | null = null;
-  USER_ROLE = USER_ROLE; // For use in template
+  userRole = USER_ROLE; // For use in template
 
   constructor(private router: Router) {}
 

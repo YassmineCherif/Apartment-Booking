@@ -5,17 +5,17 @@
     <div class="list-group list-group-flush"> 
 
       <!-- ADMIN Links -->
-      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="pending" class="list-group-item list-group-item-action bg-dark text-white">Utilisateurs en attente</a>
-      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="pays" class="list-group-item list-group-item-action bg-dark text-white">Pays</a>
-      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="residences" class="list-group-item list-group-item-action bg-dark text-white">Residences</a>
-      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="blocs" class="list-group-item list-group-item-action bg-dark text-white">Blocs</a>
-      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="apartements" class="list-group-item list-group-item-action bg-dark text-white">Appartements</a>
+      <a *ngIf="currentUserRole === userRole.ADMIN" routerLink="pending" class="list-group-item list-group-item-action bg-dark text-white">Utilisateurs en attente</a>
+      <a *ngIf="currentUserRole === userRole.ADMIN" routerLink="pays" class="list-group-item list-group-item-action bg-dark text-white">Pays</a>
+      <a *ngIf="currentUserRole === userRole.ADMIN" routerLink="residences" class="list-group-item list-group-item-action bg-dark text-white">Residences</a>
+      <a *ngIf="currentUserRole === userRole.ADMIN" routerLink="blocs" class="list-group-item list-group-item-action bg-dark text-white">Blocs</a>
+      <a *ngIf="currentUserRole === userRole.ADMIN" routerLink="apartements" class="list-group-item list-group-item-action bg-dark text-white">Appartements</a>
       <a  routerLink="respond" class="list-group-item list-group-item-action bg-dark text-white">Reservations</a>
-      <a *ngIf="currentUserRole === USER_ROLE.ADMIN" routerLink="respondreclamation" class="list-group-item list-group-item-action bg-dark text-white">Reclamations</a>
+      <a *ngIf="currentUserRole === userRole.ADMIN" routerLink="respondreclamation" class="list-group-item list-group-item-action bg-dark text-white">Reclamations</a>
  
       <!-- CONCIERGE Links -->
       <a routerLink="messenger" class="list-group-item list-group-item-action bg-dark text-white">Messages</a>
-      <a *ngIf="currentUserRole === USER_ROLE.CONCIERGE" routerLink="reclamer" class="list-group-item list-group-item-action bg-dark text-white">Reclamations</a>
+      <a *ngIf="currentUserRole === userRole.CONCIERGE" routerLink="reclamer" class="list-group-item list-group-item-action bg-dark text-white">Reclamations</a>
 
     </div>
   </div>

@@ -1,5 +1,6 @@
 package esprit.example.fegaac1.services;
 
+import esprit.example.fegaac1.entities.USER_ROLE;
 import esprit.example.fegaac1.entities.User;
 import esprit.example.fegaac1.repository.UserRepository;
 import jakarta.mail.MessagingException;
@@ -11,6 +12,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.mail.javamail.JavaMailSender;
 
 @Service
@@ -72,6 +75,44 @@ public class UserService {
 
         userRepository.save(existing);
     }
+
+
+
+
+
+    public User registerUser(Map<String, Object> userMap) throws IllegalArgumentException {
+        String email = (String) userMap.get("email");
+        String login = (String) userMap.get("login");
+
+        if (userRepository.findByEmail(email) != null) {
+            throw new IllegalArgumentException("EMAIL_EXISTS");
+        }
+
+        if (userRepository.findByLogin(login) != null) {
+            throw new IllegalArgumentException("LOGIN_EXISTS");
+        }
+
+        User user = new User();
+        user.setNom((String) userMap.get("nom"));
+        user.setPrenom((String) userMap.get("prenom"));
+        user.setEmail(email);
+        user.setNumerotelephone((String) userMap.get("numerotelephone"));
+        user.setAdresse((String) userMap.get("adresse"));
+        user.setLogin(login);
+        user.setMdp((String) userMap.get("mdp"));
+        user.setActif(true);
+        user.setApproved(2);
+        user.setCin("");
+        user.setDerniercnx("");
+
+        String roleStr = (String) userMap.get("userRole");
+        user.setUserRole(USER_ROLE.valueOf(roleStr));
+
+        return userRepository.save(user);
+    }
+
+
+
 
     // ------------- email ------------------------
 

@@ -72,25 +72,32 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+
+
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, Object> userMap) {
         Map<String, String> response = new HashMap<>();
         try {
-            if (user.getUserRole() == null) {
-                user.setUserRole(USER_ROLE.CLIENT);
-            }
-
-            user.setActif(true);
-            user.setApproved(2); // par défaut : en attente
-
-            userService.save(user);
+            userService.registerUser(userMap);
             response.put("message", "Inscription réussie");
             return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            if ("EMAIL_EXISTS".equals(e.getMessage())) {
+                response.put("message", "Cet e-mail est déjà utilisé.");
+            } else if ("LOGIN_EXISTS".equals(e.getMessage())) {
+                response.put("message", "Cet identifiant est déjà utilisé.");
+            } else {
+                response.put("message", "Rôle invalide");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } catch (Exception e) {
+            e.printStackTrace();
             response.put("message", "Échec de l'inscription");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+
+
 
     @GetMapping("/pending")
     public ResponseEntity<List<User>> getPendingUsers() {
